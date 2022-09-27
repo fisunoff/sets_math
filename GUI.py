@@ -18,11 +18,15 @@ class MyWindow(QtWidgets.QDockWidget):
         self.ui.pushButton_or.clicked.connect(lambda: self.add_sign("∪"))
         self.ui.pushButton_diff.clicked.connect(lambda: self.add_sign("\\"))
         self.ui.pushButton_xor.clicked.connect(lambda: self.add_sign("∆"))
+        self.ui.pushButton_addition.clicked.connect(lambda: self.add_sign("¯"))
 
     def btnClicked(self):
-        set_A = set(map(str, self.ui.textEdit_A.toPlainText().split(", ")))
-        set_B = set(map(str, self.ui.textEdit_B.toPlainText().split(", ")))
-        set_C = set(map(str, self.ui.textEdit_C.toPlainText().split(", ")))
+        str_A = self.ui.textEdit_A.toPlainText()
+        str_B = self.ui.textEdit_B.toPlainText()
+        str_C = self.ui.textEdit_C.toPlainText()
+        set_A = set(map(str, str_A.split(", "))) if str_A else set()
+        set_B = set(map(str, str_B.split(", "))) if str_B else set()
+        set_C = set(map(str, str_C.split(", "))) if str_C else set()
         res = scripts.solve(self.ui.textEdit.toPlainText(), set_A, set_B, set_C)
         self.ui.textEdit_result.setText(str(res))
 

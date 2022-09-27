@@ -1,5 +1,5 @@
 def solve(expression: str, A: set, B: set, C: set) -> set:
-    expression = expression.replace("∩", "&").replace("∪", "|").replace("\\", "-").replace("∆", "^")
+    expression = expression.replace("∩", "&").replace("∪", "|").replace("\\", "-").replace("∆", "^").replace("¯", "(A | B | C) - ")
     return eval(expression)
 
 
