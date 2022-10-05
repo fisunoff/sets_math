@@ -106,9 +106,15 @@ class Ui_DockWidget(object):
         self.pushButton_cartesian.setFont(font)
         self.pushButton_cartesian.setObjectName("pushButton_cartesian")
         self.horizontalLayout.addWidget(self.pushButton_cartesian)
+        self.pushButton_powerset = QtWidgets.QPushButton(self.horizontalLayoutWidget_2)
+        font = QtGui.QFont()
+        font.setPointSize(20)
+        self.pushButton_powerset.setFont(font)
+        self.pushButton_powerset.setObjectName("pushButton_powerset")
+        self.horizontalLayout.addWidget(self.pushButton_powerset)
         self.tabWidget.addTab(self.tab_2, "")
         self.textEdit = QtWidgets.QTextEdit(self.dockWidgetContents)
-        self.textEdit.setGeometry(QtCore.QRect(340, 190, 461, 141))
+        self.textEdit.setGeometry(QtCore.QRect(340, 190, 471, 141))
         self.textEdit.setObjectName("textEdit")
         self.solve_btn = QtWidgets.QPushButton(self.dockWidgetContents)
         self.solve_btn.setGeometry(QtCore.QRect(50, 440, 181, 61))
@@ -116,7 +122,7 @@ class Ui_DockWidget(object):
         DockWidget.setWidget(self.dockWidgetContents)
 
         self.retranslateUi(DockWidget)
-        self.tabWidget.setCurrentIndex(0)
+        self.tabWidget.setCurrentIndex(1)
         QtCore.QMetaObject.connectSlotsByName(DockWidget)
 
     def retranslateUi(self, DockWidget):
@@ -133,5 +139,6 @@ class Ui_DockWidget(object):
         self.pushButton_solve.setText(_translate("DockWidget", "Решить!"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab), _translate("DockWidget", "Основные действия"))
         self.pushButton_cartesian.setText(_translate("DockWidget", "X"))
+        self.pushButton_powerset.setText(_translate("DockWidget", "Булеан"))
         self.tabWidget.setTabText(self.tabWidget.indexOf(self.tab_2), _translate("DockWidget", "Дополнительные возможности"))
         self.solve_btn.setText(_translate("DockWidget", "Решить!"))

@@ -1,9 +1,17 @@
-from itertools import product
+from itertools import product, combinations
 
 
 def dekart_proizv(dekart_expression: str, A: set, B: set, C: set) -> set:
     sets = {"A": A, "B": B, "C": C}
     return set(product(sets[dekart_expression[0]], sets[dekart_expression[2]]))
+
+
+def powerset(S: set) -> set:
+    res = set()
+    for i in range(len(S) + 1):
+        for elem in combinations(S, i):
+            res.add(elem)
+    return res
 
 
 def solve(expression: str, A: set, B: set, C: set) -> set:

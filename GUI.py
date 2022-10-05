@@ -20,6 +20,7 @@ class MyWindow(QtWidgets.QDockWidget):
         self.ui.pushButton_xor.clicked.connect(lambda: self.add_sign("∆"))
         self.ui.pushButton_addition.clicked.connect(lambda: self.add_sign("¯"))
         self.ui.pushButton_cartesian.clicked.connect(lambda: self.add_sign("X"))
+        self.ui.pushButton_powerset.clicked.connect(lambda: self.add_sign("powerset()"))
 
     def init_sets(self):
         str_A = self.ui.textEdit_A.toPlainText()
@@ -32,11 +33,11 @@ class MyWindow(QtWidgets.QDockWidget):
     def btn_clicked(self):
         self.init_sets()
         res = scripts.solve(self.ui.textEdit.toPlainText(), self.set_A, self.set_B, self.set_C)
-        self.ui.textEdit_result.insertPlainText(str(res))
+        self.ui.textEdit_result.setText(str(res))
 
     def add_sign(self, symbol: str):
         old_text = self.ui.textEdit.toPlainText()
-        self.ui.textEdit.setText(old_text + symbol)
+        self.ui.textEdit.insertPlainText(symbol)
 
 
 app = QtWidgets.QApplication([])
