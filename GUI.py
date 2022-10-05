@@ -11,7 +11,7 @@ class MyWindow(QtWidgets.QDockWidget):
         self.ui.setupUi(self)
 
         # кнопка РЕШИТЬ
-        self.ui.pushButton.clicked.connect(self.btnClicked)
+        self.ui.solve_btn.clicked.connect(self.btn_clicked)
 
         # Кнопки, добавляющие операторы в строку
         self.ui.pushButton_and.clicked.connect(lambda: self.add_sign("∩"))
@@ -19,16 +19,20 @@ class MyWindow(QtWidgets.QDockWidget):
         self.ui.pushButton_diff.clicked.connect(lambda: self.add_sign("\\"))
         self.ui.pushButton_xor.clicked.connect(lambda: self.add_sign("∆"))
         self.ui.pushButton_addition.clicked.connect(lambda: self.add_sign("¯"))
+        self.ui.pushButton_cartesian.clicked.connect(lambda: self.add_sign("X"))
 
-    def btnClicked(self):
+    def init_sets(self):
         str_A = self.ui.textEdit_A.toPlainText()
         str_B = self.ui.textEdit_B.toPlainText()
         str_C = self.ui.textEdit_C.toPlainText()
-        set_A = set(map(str, str_A.split(", "))) if str_A else set()
-        set_B = set(map(str, str_B.split(", "))) if str_B else set()
-        set_C = set(map(str, str_C.split(", "))) if str_C else set()
-        res = scripts.solve(self.ui.textEdit.toPlainText(), set_A, set_B, set_C)
-        self.ui.textEdit_result.setText(str(res))
+        self.set_A = set(map(str, str_A.split(", "))) if str_A else set()
+        self.set_B = set(map(str, str_B.split(", "))) if str_B else set()
+        self.set_C = set(map(str, str_C.split(", "))) if str_C else set()
+
+    def btn_clicked(self):
+        self.init_sets()
+        res = scripts.solve(self.ui.textEdit.toPlainText(), self.set_A, self.set_B, self.set_C)
+        self.ui.textEdit_result.insertPlainText(str(res))
 
     def add_sign(self, symbol: str):
         old_text = self.ui.textEdit.toPlainText()
