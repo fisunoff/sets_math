@@ -33,7 +33,11 @@ class MyWindow(QtWidgets.QDockWidget):
     def btn_clicked(self):
         self.init_sets()
         res = scripts.solve(self.ui.textEdit.toPlainText(), self.set_A, self.set_B, self.set_C)
-        self.ui.textEdit_result.setText(str(res))
+        self.ui.textEdit_result.setText(str(res[1]))
+        if res[0] == "error":
+            self.ui.textEdit_result.setStyleSheet("background-color: rgb(255, 76, 91);\n")
+        else:
+            self.ui.textEdit_result.setStyleSheet("background-color: rgb(152, 251, 152);\n")
 
     def add_sign(self, symbol: str):
         old_text = self.ui.textEdit.toPlainText()

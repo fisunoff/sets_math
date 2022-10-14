@@ -48,6 +48,8 @@ def powerset(S: set) -> set:
 def solve(expression: str, A: set, B: set, C: set) -> set or list:
     sets = {"A": A, "B": B, "C": C}
     expression = expression.replace("∩", "&").replace("∪", "|").replace("\\", "-").replace("∆", "^").replace("¯", "(A | B | C) - ").replace(" ", "")
+    if expression.count("}") != expression.count("{"):
+        return ["error", "Проблема с определением множеств. Количество открывающихся и закрывающихся скобок не равно"]
     try:
         while "X" in expression:
             expression = dekart_proizv(expression, sets)
@@ -56,10 +58,7 @@ def solve(expression: str, A: set, B: set, C: set) -> set or list:
     except SyntaxError:
         return ["error", "Ошибка в записи декартова произведения"]
     try:
-        return eval(expression)
+        return ["ok", eval(expression)]
     except TypeError:
         return ["error", "Использован неверный тип данных"]
 
-
-if __name__ == "__main__":
-    print(solve("(A & B) | C", {1, 4, 3}, {2, 3}, {5, 6}))
