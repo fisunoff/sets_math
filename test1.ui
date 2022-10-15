@@ -62,7 +62,7 @@
       <x>340</x>
       <y>440</y>
       <width>471</width>
-      <height>71</height>
+      <height>101</height>
      </rect>
     </property>
    </widget>
@@ -76,7 +76,7 @@
      </rect>
     </property>
     <property name="currentIndex">
-     <number>1</number>
+     <number>0</number>
     </property>
     <widget class="QWidget" name="tab">
      <attribute name="title">
@@ -211,6 +211,18 @@
          </property>
         </widget>
        </item>
+       <item>
+        <widget class="QPushButton" name="pushButton_compose">
+         <property name="font">
+          <font>
+           <pointsize>20</pointsize>
+          </font>
+         </property>
+         <property name="text">
+          <string>◦</string>
+         </property>
+        </widget>
+       </item>
       </layout>
      </widget>
     </widget>
@@ -221,7 +233,7 @@
       <x>340</x>
       <y>190</y>
       <width>471</width>
-      <height>141</height>
+      <height>151</height>
      </rect>
     </property>
    </widget>

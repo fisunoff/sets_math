@@ -8,7 +8,7 @@ def find_sets(start_index: int, expression: str, sets: dict) -> list:
     :param expression: все выражение, по которому выполняется поиск
     :param sets: словарь с введенными словарями A, B, C
 
-    :return левое и правое множества, конечные индексы этих множеств:"""
+    :return левое и правое множества, конечные индексы этих множеств ИЛИ ошибку:"""
     # левое множество
     set_index_left = 0
     if expression[start_index - 1] in ["A", "B", "C"]:
@@ -40,9 +40,53 @@ def find_sets(start_index: int, expression: str, sets: dict) -> list:
     return [first_u, second_u, set_index_left, set_index_right]
 
 
+def compose(a: set, b: set) -> list:
+    """Композиция функций
+
+    :param a: Левое множество пар типа tuple
+    :param b: Правое множество пар типа tuple
+
+    :return Статус выполнения и ошибка/множество результата:"""
+    res = set()
+    for i in a:
+        if type(i) != tuple:
+            return ["error", f"Некорректный элемент для композиции: {i}"]
+        for j in b:
+            if type(j) != tuple:
+                return ["error", f"Некорректный элемент для композиции: {j}"]
+            if i[1] == j[0]:
+                res.add((i[0], j[1]))
+    return ["ok", res]
+
+
+def find_and_make_compose(expression: str, sets: dict) -> str or list:
+    """По индексу находит в строке композицию и выполняет операцию
+
+    :param expression: Выражение целиком
+    :param sets: словарь с введенными словарями A, B, C
+
+    :return Новая строка выражения с результатом операции или ошибка:"""
+    start_index = expression.index("◦")
+    res_find_sets = find_sets(start_index, expression, sets)
+    if res_find_sets[0] == "error":
+        return res_find_sets
+
+    first_u, second_u, set_index_left, set_index_right = res_find_sets
+    compose_res = compose(first_u, second_u)
+    if compose_res[0] == "error":
+        return compose_res
+    compose_res = compose_res[1]
+    expression = expression[:start_index - 1 - set_index_left] + str(compose_res) + expression[start_index + 2 + set_index_right:]
+    return expression
+
+
 def dekart_proizv(expression: str, sets: dict) -> str or list:
     dekart_index = expression.index("X")
-    first_u, second_u, set_index_left, set_index_right = find_sets(dekart_index, expression, sets)
+    res_find_sets = find_sets(dekart_index, expression, sets)
+    if res_find_sets[0] == "error":
+        return res_find_sets
+
+    first_u, second_u, set_index_left, set_index_right = res_find_sets
     dekart_res = set(product(first_u, second_u))
     expression = expression[:dekart_index - 1 - set_index_left] + str(dekart_res) + expression[dekart_index + 2 + set_index_right:]
     return expression
@@ -58,18 +102,29 @@ def powerset(S: set) -> set:
 
 def solve(expression: str, A: set, B: set, C: set) -> set or list:
     sets = {"A": A, "B": B, "C": C}
-    expression = expression.replace("∩", "&").replace("∪", "|").replace("\\", "-").replace("∆", "^").replace("¯", "(A | B | C) - ").replace(" ", "")
+    expression = expression.replace("∩", "&").replace("∪", "|").replace("\\", "-").replace("∆", "^").replace("¯", "(A | B | C) - ").replace(" ", "").replace(";", ",")
     if expression.count("}") != expression.count("{"):
         return ["error", "Проблема с определением множеств. Количество открывающихся и закрывающихся скобок не равно"]
     try:
+        # Декартово произведение
         while "X" in expression:
             expression = dekart_proizv(expression, sets)
             if expression[0] == "error":
                 return expression
+
+        # Композиция
+        while "◦" in expression:
+            expression = find_and_make_compose(expression, sets)
+            if expression[0] == "error":
+                return expression
+
     except SyntaxError:
         return ["error", "Ошибка в записи декартова произведения"]
     try:
-        return ["ok", eval(expression)]
+        result = eval(expression)
+        if str(result) == "set()":
+            result = "{}"
+        return ["ok", result]
     except TypeError:
         return ["error", "Использован неверный тип данных"]
     except SyntaxError:
