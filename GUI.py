@@ -1,6 +1,6 @@
-from PyQt5 import QtWidgets, QtCore
+from PyQt5 import QtWidgets
 import sys
-from test1 import Ui_DockWidget
+from sets_gui import Ui_DockWidget
 import scripts
 
 
@@ -48,7 +48,6 @@ class MyWindow(QtWidgets.QDockWidget):
             self.ui.textEdit_result.setStyleSheet("background-color: rgb(152, 251, 152);\n")
 
     def add_sign(self, symbol: str):
-        old_text = self.ui.textEdit.toPlainText()
         self.ui.textEdit.insertPlainText(symbol)
 
 

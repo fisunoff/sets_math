@@ -133,7 +133,7 @@ class Ui_DockWidget(object):
 
     def retranslateUi(self, DockWidget):
         _translate = QtCore.QCoreApplication.translate
-        DockWidget.setWindowTitle(_translate("DockWidget", "DockWidget"))
+        DockWidget.setWindowTitle(_translate("DockWidget", "Множества"))
         self.label.setText(_translate("DockWidget", "A"))
         self.label_2.setText(_translate("DockWidget", "B"))
         self.label_3.setText(_translate("DockWidget", "C"))

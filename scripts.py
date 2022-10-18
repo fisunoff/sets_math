@@ -8,7 +8,7 @@ def find_sets(start_index: int, expression: str, sets: dict) -> list:
     :param expression: все выражение, по которому выполняется поиск
     :param sets: словарь с введенными словарями A, B, C
 
-    :return левое и правое множества, конечные индексы этих множеств ИЛИ ошибку:"""
+    :returns: левое и правое множества, конечные индексы этих множеств ИЛИ ошибку"""
     # левое множество
     set_index_left = 0
     if expression[start_index - 1] in ["A", "B", "C"]:
@@ -46,7 +46,7 @@ def compose(a: set, b: set) -> list:
     :param a: Левое множество пар типа tuple
     :param b: Правое множество пар типа tuple
 
-    :return Статус выполнения и ошибка/множество результата:"""
+    :returns: Статус выполнения и ошибка/множество результата"""
     res = set()
     for i in a:
         if type(i) != tuple:
@@ -65,7 +65,7 @@ def find_and_make_compose(expression: str, sets: dict) -> str or list:
     :param expression: Выражение целиком
     :param sets: словарь с введенными словарями A, B, C
 
-    :return Новая строка выражения с результатом операции или ошибка:"""
+    :returns: Новая строка выражения с результатом операции или ошибка"""
     start_index = expression.index("◦")
     res_find_sets = find_sets(start_index, expression, sets)
     if res_find_sets[0] == "error":
@@ -81,6 +81,12 @@ def find_and_make_compose(expression: str, sets: dict) -> str or list:
 
 
 def dekart_proizv(expression: str, sets: dict) -> str or list:
+    """Декартово произведение
+
+    :param expression: исходное выражение
+    :param sets: множества A, B, C
+
+    :returns: строка выражение, в которой операция заменена на ее результат или список(ошибка, тип ошибки)"""
     dekart_index = expression.index("X")
     res_find_sets = find_sets(dekart_index, expression, sets)
     if res_find_sets[0] == "error":
@@ -93,6 +99,13 @@ def dekart_proizv(expression: str, sets: dict) -> str or list:
 
 
 def powerset(S: set) -> set:
+    """
+    Булеан
+
+    :param S: множество, булеан которого нужно вернуть
+
+    :returns: булеан множества
+    """
     res = set()
     for i in range(len(S) + 1):
         for elem in combinations(S, i):
@@ -101,6 +114,16 @@ def powerset(S: set) -> set:
 
 
 def solve(expression: str, A: set, B: set, C: set) -> set or list:
+    """
+    Основная функция. Принимает начальное выражение, вызывает необходимые для проведения операций функции
+
+    :param expression: Исходное выражение
+    :param A: Множество A
+    :param B: Множество B
+    :param C: Множество C
+
+    :returns: финальный ответ или ошибка
+    """
     sets = {"A": A, "B": B, "C": C}
     expression = expression.replace("∩", "&").replace("∪", "|").replace("\\", "-").replace("∆", "^").replace("¯", "(A | B | C) - ").replace(" ", "").replace(";", ",")
     if expression.count("}") != expression.count("{"):
@@ -119,7 +142,7 @@ def solve(expression: str, A: set, B: set, C: set) -> set or list:
                 return expression
 
     except SyntaxError:
-        return ["error", "Ошибка в записи декартова произведения"]
+        return ["error", "Ошибка в записи декартова произведения или композиции"]
     try:
         result = eval(expression)
         if str(result) == "set()":
@@ -131,4 +154,3 @@ def solve(expression: str, A: set, B: set, C: set) -> set or list:
         return ["error", "Синтаксическая ошибка"]
     except Exception:
         return ["error", "Непредвиденная ошибка"]
-
